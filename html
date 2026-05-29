@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e1e1e, #2b2b2b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    .calculator {
+      background: #111;
+      padding: 20px;
+      border-radius: 20px;
+      width: 320px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .display {
+      width: 100%;
+      height: 70px;
+      background: #222;
+      border: none;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      text-align: right;
+      font-size: 2rem;
+      padding: 15px;
+      color: white;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      height: 60px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      background: #333;
+      color: white;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #444;
+      transform: scale(1.03);
+    }
+
+    .operator {
+      background: #ff9500;
+    }
+
+    .operator:hover {
+      background: #ffaa33;
+    }
+
+    .secret-screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0d1117;
+      color: #00ff88;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      z-index: 999;
+    }
+
+    .secret-screen h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .secret-screen p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .close-btn {
+      margin-top: 30px;
+      padding: 12px 24px;
+      background: #00ff88;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <input type="text" class="display" id="display" readonly>
+
+    <div class="buttons">
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button class="operator" onclick="append('/')">÷</button>
+
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button class="operator" onclick="append('*')">×</button>
+
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button class="operator" onclick="append('-')">−</button>
+
+      <button onclick="append('0')">0</button>
+      <button onclick="append('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button class="operator" onclick="append('+')">+</button>
+
+      <button onclick="clearDisplay()" style="grid-column: span 4; background:#ff3b30;">
+        Clear
+      </button>
+    </div>
+  </div>
+
+  <div class="secret-screen" id="secretScreen">
+    <h1>SECRET MODE UNLOCKED</h1>
+    <p>
+      You found the hidden area by entering the secret code.<br><br>
+      You can replace this with:
+      <br>• A hidden game
+      <br>• A private chat page
+      <br>• Secret links
+      <br>• Memes
+      <br>• A fake hacker screen
+      <br>• Anything you want
+    </p>
+
+    <button class="close-btn" onclick="closeSecret()">
+      Close Secret Mode
+    </button>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function append(value) {
+      display.value += value;
+
+      // Secret code detection
+      if (display.value === '80085') {
+        openSecret();
+      }
+    }
+
+    function clearDisplay() {
+      display.value = '';
+    }
+
+    function calculate() {
+      try {
+        display.value = eval(display.value);
+      } catch {
+        display.value = 'Error';
+      }
+    }
+
+    function openSecret() {
+      document.getElementById('secretScreen').style.display = 'flex';
+      display.value = '';
+    }
+
+    function closeSecret() {
+      document.getElementById('secretScreen').style.display = 'none';
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      const allowed = '0123456789+-*/.';
+
+      if (allowed.includes(e.key)) {
+        append(e.key);
+      }
+
+      if (e.key === 'Enter') {
+        calculate();
+      }
+
+      if (e.key === 'Backspace') {
+        display.value = display.value.slice(0, -1);
+      }
+
+      if (e.key.toLowerCase() === 'c') {
+        clearDisplay();
+      }
+    });
+  </script>
+
+</body>
+</html>
