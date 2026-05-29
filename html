@@ -139,20 +139,25 @@
   </div>
 
   <div class="secret-screen" id="secretScreen">
-    <h1>SECRET MODE UNLOCKED</h1>
-    <p>
-      You found the hidden area by entering the secret code.<br><br>
-      You can replace this with:
-      <br>• A hidden game
-      <br>• A private chat page
-      <br>• Secret links
-      <br>• Memes
-      <br>• A fake hacker screen
-      <br>• Anything you want
+    <h1>⚠ SYSTEM BREACH DETECTED ⚠</h1>
+
+    <p id="virusText">
+      Your files are being encrypted...<br>
+      Contacting remote server...<br>
+      Downloading malware...<br><br>
+      <strong>DO NOT TURN OFF YOUR DEVICE</strong>
     </p>
 
+    <div style="width: 80%; height: 25px; background:#222; border-radius:10px; margin-top:25px; overflow:hidden;">
+      <div id="progressBar" style="height:100%; width:0%; background:#00ff88;"></div>
+    </div>
+
+    <h2 id="percent" style="margin-top:15px;">0%</h2>
+
+    <div id="terminal" style="margin-top:25px; width:90%; max-width:700px; height:180px; background:black; color:#00ff88; font-family:monospace; padding:15px; overflow:hidden; border:2px solid #00ff88; border-radius:10px; text-align:left; font-size:0.9rem;"></div>
+
     <button class="close-btn" onclick="closeSecret()">
-      Close Secret Mode
+      Escape
     </button>
   </div>
 
@@ -181,8 +186,91 @@
     }
 
     function openSecret() {
-      document.getElementById('secretScreen').style.display = 'flex';
+      const secret = document.getElementById('secretScreen');
+      const bar = document.getElementById('progressBar');
+      const percent = document.getElementById('percent');
+      const text = document.getElementById('virusText');
+
+      secret.style.display = 'flex';
       display.value = '';
+
+      let progress = 0;
+
+      const messages = [
+        'Injecting trojan.exe into kernel...',
+        'Bypassing firewall security...',
+        'Decrypting browser passwords...',
+        'Uploading files to dark-web node...',
+        'Remote access granted...',
+        'Activating webcam surveillance...',
+        'Extracting Discord tokens...',
+        'Downloading classified data...',
+        'Injecting ransomware payload...',
+        'Tracking IP address...',
+        'Accessing administrator controls...',
+        'Deleting system32...',
+        'Connecting to anonymous relay...',
+        'Overclocking CPU for brute force...',
+        'Mining cryptocurrency in background...',
+        'Injecting spyware modules...',
+        'Compromising network security...',
+        'Synchronizing stolen data...',
+        'ERROR: Antivirus disabled',
+        'WARNING: BIOS corruption detected'
+      ];
+
+      const terminal = document.getElementById('terminal');
+
+      const hackerLogs = [
+        '[ROOT ACCESS GRANTED]',
+        '[FIREWALL BREACHED]',
+        '[REMOTE SERVER CONNECTED]',
+        '[DATABASE EXPORTED]',
+        '[ENCRYPTION KEYS STOLEN]',
+        '[ADMIN OVERRIDE SUCCESSFUL]',
+        '[SECURITY FAILURE DETECTED]',
+        '[USER TRACKED SUCCESSFULLY]',
+        '[KERNEL MODIFIED]',
+        '[DARKNET NODE ACTIVE]',
+        '[PAYLOAD DEPLOYED]',
+        '[SYSTEM COMPROMISED]'
+      ];
+
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 10) + 3;
+
+        if (progress > 100) progress = 100;
+
+        bar.style.width = progress + '%';
+        percent.textContent = progress + '%';
+
+        text.innerHTML = messages[Math.floor(Math.random() * messages.length)] + '<br><br><strong>CRITICAL ERROR</strong>';
+
+        const log = document.createElement('div');
+        log.textContent = '> ' + hackerLogs[Math.floor(Math.random() * hackerLogs.length)];
+        terminal.prepend(log);
+
+        if (terminal.children.length > 12) {
+          terminal.removeChild(terminal.lastChild);
+        }
+
+        if (progress >= 100) {
+          clearInterval(interval);
+
+          setTimeout(() => {
+            secret.innerHTML = `
+              <h1 style="color:#00ff88;">😂 YOU GOT TROLLED 😂</h1>
+              <p>
+                This was just a fake virus prank screen.<br><br>
+                Nothing was actually downloaded or hacked.
+              </p>
+              <button class="close-btn" onclick="closeSecret()">
+                Go Back
+              </button>
+            `;
+          }, 1000);
+        }
+      }, 250);
     }
 
     function closeSecret() {
